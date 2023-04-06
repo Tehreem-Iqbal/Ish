@@ -1496,15 +1496,29 @@ void ish_init(){
 
 void process(){
 	int i;
-	for(i=0;i<commandCount-1;i++){
+	printf("command count: %d\n", commandCount);
+	for(i=0;i<commandCount;i++){
 		printf("-----------------");
 		printf("command %d : %s\n", i, commandsArray[i]);
-		for(int p=0; p< counts[commandCount] ;p++)
-			printf("command : %d , para %d : %s\n ", i, p, parametersArray[i][p] );
+		if(i != (commandCount-1))	{
+			//printf("")
+			printf("parm count: %d\n",counts[i]);
+			for(int p=0; p< counts[i] ;p++)
+				printf("command : %d , para %d : %s\n ", i, p, parametersArray[i][p] );
+		}
+		else{
+			printf("parm count: %d\n",counts[i]);
+			for(int p=0; p< paramCount ;p++)
+				printf("command : %d , para %d : %s\n ", i, p, parametersArray[i][p] );
+		}	
 		printf("-----------------");
+		
 	}
-	for(int p=0; p< paramCount ;p++)
-			printf("command : %d , para %d : %s\n ", i, p, parametersArray[i][p] );
+	/*
+	printf("last command\n");
+			for(int p=0; p< paramCount ;p++)
+				printf("command : %d , para %d : %s\n ", i, p, parametersArray[i][p] );
+	*/
 
 	for(i=0;i<commandCount;i++){
 	
@@ -1527,8 +1541,8 @@ void process(){
 		}
 			
 		else{
-			
-			executeCommand(i, commandsArray[i], parametersArray[i]);
+			printf("not builtin\n");
+			//executeCommand(i, commandsArray[i], parametersArray[i]);
 		}
 	}
 }
