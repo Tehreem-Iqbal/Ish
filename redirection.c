@@ -1,27 +1,21 @@
 void ioRedirection(int commandNo){
-	for(int r=0; r< 5 ;r++){
+	for(int r=0; r < 5 ;r++){ // Check all 5 redirections for each command
 		switch(redirection[commandNo][r]){
-			case NO_REDIRECT:
-				//printf("NO_REDIRECT\n");
+			case NO_REDIRECT: // no redirection
 				break;
-			case REDIRECT_IN:
-				//printf("REDIRECT_IN  %s\n", inFile[commandNo]);
+			case REDIRECT_IN: // <				
 				redirectInput(inFile[commandNo]);
 				break;
-			case REDIRECT_OUT:
-				//printf("REDIRECT_OUT %s\n", outFile[commandNo]);
+			case REDIRECT_OUT: // >
 				redirectOutput(outFile[commandNo]);
 				break;
-			case REDIRECT_ERROR:
-				//printf("REDIRECT_ERROR %s\n", errFile[commandNo]);
+			case REDIRECT_ERROR: // >&
 				redirectError(errFile[commandNo]);
 				break;
-			case APPEND:
-				//printf("APPEND %s\n", outFile[commandNo]);
+			case APPEND: // >>
 				redirectOutAppend(outFile[commandNo]);
 				break;
-			case APPEND_ERROR:
-				//printf("APPEND_ERROR %s\n", errFile[commandNo]);
+			case APPEND_ERROR: //>>&
 				redirectErrAppend(errFile[commandNo]);
 				break;
 		}
@@ -74,7 +68,7 @@ void redirectErrAppend(char* errFile){
 	}
 }
 
-
+// Reset the standard input, output and error
 void reset(){
     	dup2(dp_in, 0);
 		dup2(dp_out, 1);

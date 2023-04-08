@@ -1491,7 +1491,7 @@ int yyerror(char *s){
 
 
 int main(){
-	//signal(SIGCHLD, sigchild_handler);
+	
 	jobCount = 0;
 	jobs = malloc(sizeof(struct Job)*JOBS);
 	while(1){		

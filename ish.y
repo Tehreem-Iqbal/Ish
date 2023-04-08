@@ -52,15 +52,9 @@ cmd_line 	: cmd_line separator COMMAND parameters { strcpy(commandsArray[command
 		| error 
 		;
 
-separator 	: BACKGROUND  { printf("bg"); background = true;}
-		| PIPE { printf("pipe"); 
-		counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;
-		isPipe[pipeCount++] = PIPE;
-		}
-		| PIPE_ERROR { printf("pipe_error"); 
-		counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;
-		isPipe[pipeCount++] = PIPE_ERROR;
-		}
+separator 	: BACKGROUND  {  background = true;}
+		| PIPE 
+		| PIPE_ERROR 
 		| SEMICOLON {   counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;}
 		;
 
@@ -84,18 +78,21 @@ int yyerror(char *s){
 
 
 
-int main(){
-	//signal(SIGCHLD, sigchild_handler);
+int main(){	
+	//Initialize the jobs array to store the jobs for current shell
 	jobCount = 0;
 	jobs = malloc(sizeof(struct Job)*JOBS);
 	while(1){		
-		init();
+		init(); //Initialize all global variables and arrays
         switch(getCommand()) {
 			case YYerror:
 				break;
 			case F_OK:
+				//Store the parameter count of last command
 				counts[commandCount-1] = paramCount;	
+				// Process command
 				process();
+				// Free memory
 				destroy();
 				break;
 			default: 			

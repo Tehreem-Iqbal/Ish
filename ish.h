@@ -68,7 +68,7 @@ int pipeCount;
 
 // Command and parameters
 char ***parametersArray;
-char** arglist;
+char ** arglist;
 char **commandsArray;
 
 //no of command parameters

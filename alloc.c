@@ -1,30 +1,47 @@
 
-void sigchild_handler(int signum)
-{
+// Signal handler for SIGCHLD
+void sigchild_handler(int signum){
 	int status;
     pid_t pid;
     while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
         if (WIFEXITED(status)) {
-            printf("[%d] Done \n", jobCount);
-        } else if (WIFSIGNALED(status)) {
-            printf("[%d] Stopped \n", jobCount);
+			for(int i=0;i<jobCount;i++){
+				if(jobs[i].jobpid == pid){
+					jobs[i].jobstatus = "Done";
+					printf("\n %s %s \n", jobs[i].jobname, jobs[i].jobstatus );
+					break;
+				}
+			}
+          
+        }
+		 else if (WIFSIGNALED(status)) {
+			for(int i=0;i<jobCount;i++){
+				if(jobs[i].jobpid == pid){
+					jobs[i].jobstatus = "Stopped";
+					printf("\n%s %s \n", jobs[i].jobname, jobs[i].jobstatus );
+					break;
+				}
+			}
         }
     }
 }
+
+//Signal handler for SIGTERM
 void termHandler(int sig) {
     printf("Received TERM signal\n");
     exit(0);
 }
+// Get hostname
 char* hostname(){
 	char *hostbuffer = (char*)malloc(sizeof(char)* PATH);
 	gethostname(hostbuffer, PATH);
 	return hostbuffer;
 }
-
+// Initialize variables and memory
 void init(){
 	int i, j;
 	printf("\n");
-	printf("[1;34;40m" "%s : ", hostname());
+	printf("[1;34;40m" "%s%% ", hostname());
 	reset();
 	//reset variables
 	commandCount = 0;
@@ -86,9 +103,10 @@ void init(){
 	// Ignore QUIT signal
 	signal(SIGQUIT, SIG_IGN); 
 	signal(SIGTERM, termHandler);	
+	signal(SIGCHLD, sigchild_handler);
 }
 
-
+// Free memory
 void destroy(){
 	for (int j = 0; j < COMMANDS; j++) 
 		free(commandsArray[j]);	
