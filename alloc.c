@@ -31,6 +31,7 @@ void termHandler(int sig) {
     printf("Received TERM signal\n");
     exit(0);
 }
+
 // Get hostname
 char* hostname(){
 	char *hostbuffer = (char*)malloc(sizeof(char)* PATH);
@@ -102,6 +103,7 @@ void init(){
 	}
 	// Ignore QUIT signal
 	signal(SIGQUIT, SIG_IGN); 
+	signal(SIGINT, SIG_IGN); 
 	signal(SIGTERM, termHandler);	
 	signal(SIGCHLD, sigchild_handler);
 }

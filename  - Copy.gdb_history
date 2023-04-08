@@ -1,7 +1,0 @@
-file ./ish
-break main
-run
-q
-break main
-run
-q
