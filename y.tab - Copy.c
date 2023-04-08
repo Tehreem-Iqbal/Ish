@@ -616,8 +616,8 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int8 yyrline[] =
 {
        0,    47,    47,    48,    49,    50,    51,    52,    55,    56,
-      57,    58,    61,    62,    63,    64,    65,    66,    67,    68,
-      69
+      60,    64,    67,    68,    69,    70,    71,    72,    73,    74,
+      75
 };
 #endif
 
@@ -1210,66 +1210,84 @@ yyreduce:
 
   case 8: /* separator: BACKGROUND  */
 #line 55 "ish.y"
-                              {  background = true;}
+                              { printf("bg"); background = true;}
 #line 1215 "y.tab.c"
     break;
 
-  case 11: /* separator: SEMICOLON  */
-#line 58 "ish.y"
-                            {   counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;}
-#line 1221 "y.tab.c"
+  case 9: /* separator: PIPE  */
+#line 56 "ish.y"
+                       { printf("pipe"); 
+		counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;
+		isPipe[pipeCount++] = PIPE;
+		}
+#line 1224 "y.tab.c"
     break;
 
-  case 12: /* parameters: parameters OPTION  */
-#line 61 "ish.y"
-                                    { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
-#line 1227 "y.tab.c"
-    break;
-
-  case 13: /* parameters: parameters STRING  */
-#line 62 "ish.y"
-                                    { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
+  case 10: /* separator: PIPE_ERROR  */
+#line 60 "ish.y"
+                             { printf("pipe_error"); 
+		counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;
+		isPipe[pipeCount++] = PIPE_ERROR;
+		}
 #line 1233 "y.tab.c"
     break;
 
-  case 14: /* parameters: parameters WORD  */
-#line 63 "ish.y"
-                                  { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
+  case 11: /* separator: SEMICOLON  */
+#line 64 "ish.y"
+                            {   counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;}
 #line 1239 "y.tab.c"
     break;
 
-  case 15: /* parameters: parameters REDIRECT_IN FILENAME  */
-#line 64 "ish.y"
-                                                  { redirection[commandCount][iter_red++] = REDIRECT_IN; strcpy(inFile[commandCount] ,(yyvsp[0].string)); }
+  case 12: /* parameters: parameters OPTION  */
+#line 67 "ish.y"
+                                    { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
 #line 1245 "y.tab.c"
     break;
 
-  case 16: /* parameters: parameters REDIRECT_OUT FILENAME  */
-#line 65 "ish.y"
-                                           { redirection[commandCount][iter_red++] = REDIRECT_OUT; strcpy(outFile[commandCount] , (yyvsp[0].string)); }
+  case 13: /* parameters: parameters STRING  */
+#line 68 "ish.y"
+                                    { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
 #line 1251 "y.tab.c"
     break;
 
-  case 17: /* parameters: parameters REDIRECT_ERROR FILENAME  */
-#line 66 "ish.y"
-                                                     { redirection[commandCount][iter_red++] = REDIRECT_ERROR; strcpy(errFile[commandCount] , (yyvsp[0].string));}
+  case 14: /* parameters: parameters WORD  */
+#line 69 "ish.y"
+                                  { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
 #line 1257 "y.tab.c"
     break;
 
-  case 18: /* parameters: parameters APPEND FILENAME  */
-#line 67 "ish.y"
-                                             { redirection[commandCount][iter_red++] = APPEND; strcpy(outFile[commandCount],(yyvsp[0].string)); }
+  case 15: /* parameters: parameters REDIRECT_IN FILENAME  */
+#line 70 "ish.y"
+                                                  { redirection[commandCount][iter_red++] = REDIRECT_IN; strcpy(inFile[commandCount] ,(yyvsp[0].string)); }
 #line 1263 "y.tab.c"
     break;
 
-  case 19: /* parameters: parameters APPEND_ERROR FILENAME  */
-#line 68 "ish.y"
-                                                   { redirection[commandCount][iter_red++] = APPEND_ERROR; strcpy(outFile[commandCount] , (yyvsp[0].string)); }
+  case 16: /* parameters: parameters REDIRECT_OUT FILENAME  */
+#line 71 "ish.y"
+                                           { redirection[commandCount][iter_red++] = REDIRECT_OUT; strcpy(outFile[commandCount] , (yyvsp[0].string)); }
 #line 1269 "y.tab.c"
     break;
 
+  case 17: /* parameters: parameters REDIRECT_ERROR FILENAME  */
+#line 72 "ish.y"
+                                                     { redirection[commandCount][iter_red++] = REDIRECT_ERROR; strcpy(errFile[commandCount] , (yyvsp[0].string));}
+#line 1275 "y.tab.c"
+    break;
 
-#line 1273 "y.tab.c"
+  case 18: /* parameters: parameters APPEND FILENAME  */
+#line 73 "ish.y"
+                                             { redirection[commandCount][iter_red++] = APPEND; strcpy(outFile[commandCount],(yyvsp[0].string)); }
+#line 1281 "y.tab.c"
+    break;
+
+  case 19: /* parameters: parameters APPEND_ERROR FILENAME  */
+#line 74 "ish.y"
+                                                   { redirection[commandCount][iter_red++] = APPEND_ERROR; strcpy(outFile[commandCount] , (yyvsp[0].string)); }
+#line 1287 "y.tab.c"
+    break;
+
+
+#line 1291 "y.tab.c"
 
       default: break;
     }
@@ -1462,7 +1480,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 72 "ish.y"
+#line 78 "ish.y"
 
 
 int yyerror(char *s){
@@ -1472,21 +1490,18 @@ int yyerror(char *s){
 
 
 
-int main(){	
-	//Initialize the jobs array to store the jobs for current shell
+int main(){
+	
 	jobCount = 0;
 	jobs = malloc(sizeof(struct Job)*JOBS);
 	while(1){		
-		init(); //Initialize all global variables and arrays
+		init();
         switch(getCommand()) {
 			case YYerror:
 				break;
 			case F_OK:
-				//Store the parameter count of last command
 				counts[commandCount-1] = paramCount;	
-				// Process command
 				process();
-				// Free memory
 				destroy();
 				break;
 			default: 			

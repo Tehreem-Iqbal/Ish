@@ -2,7 +2,7 @@
 // Check if command is builtin
 bool isBuiltin(char* command){
 
-	if(!strcmp(command,"cd") || !strcmp(command,"exit")|| !strcmp(command,"jobs") || !strcmp(command,"bg")|| !strcmp(command,"fg") || !strcmp(command,"kill") || !strcmp(command,"setenv") || !strcmp(command,"unsetenv"))
+	if(!strcmp(command,"cd") || !strcmp(command,"jobs") || !strcmp(command,"bg")|| !strcmp(command,"fg") || !strcmp(command,"kill") || !strcmp(command,"setenv") || !strcmp(command,"unsetenv"))
 		return true;
 	return false;
 }
