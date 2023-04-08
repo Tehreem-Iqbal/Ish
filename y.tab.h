@@ -70,7 +70,7 @@ extern int yydebug;
     STRING = 271,                  /* STRING  */
     LOGICAL_AND = 272,             /* LOGICAL_AND  */
     LOGICAL_OR = 273,              /* LOGICAL_OR  */
-    NEWLINE = 274                  /* NEWLINE  */
+    NO_REDIRECT = 274              /* NO_REDIRECT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -95,13 +95,13 @@ extern int yydebug;
 #define STRING 271
 #define LOGICAL_AND 272
 #define LOGICAL_OR 273
-#define NEWLINE 274
+#define NO_REDIRECT 274
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "ish.y"
+#line 23 "ish.y"
 
     char	*string;
     int		integer;

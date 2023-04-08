@@ -2,7 +2,7 @@ Terminals unused in grammar
 
     LOGICAL_AND
     LOGICAL_OR
-    NEWLINE
+    NO_REDIRECT
 
 
 Grammar
@@ -52,7 +52,7 @@ Terminals, with rules where they appear
     STRING <string> (271) 12
     LOGICAL_AND <int> (272)
     LOGICAL_OR <int> (273)
-    NEWLINE <int> (274)
+    NO_REDIRECT <int> (274)
 
 
 Nonterminals, with rules where they appear
