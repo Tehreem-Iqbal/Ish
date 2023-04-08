@@ -615,9 +615,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    47,    47,    48,    49,    50,    51,    52,    55,    56,
-      57,    58,    61,    62,    63,    64,    65,    66,    67,    68,
-      69
+       0,    48,    48,    49,    50,    51,    52,    53,    56,    57,
+      58,    59,    62,    63,    64,    65,    66,    67,    68,    69,
+      70
 };
 #endif
 
@@ -1191,85 +1191,91 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* cmd_line: cmd_line separator COMMAND parameters  */
-#line 47 "ish.y"
+#line 48 "ish.y"
                                                         { strcpy(commandsArray[commandCount++], (yyvsp[-1].string));  }
 #line 1197 "y.tab.c"
     break;
 
   case 3: /* cmd_line: COMMAND parameters  */
-#line 48 "ish.y"
+#line 49 "ish.y"
                               { strcpy(commandsArray[commandCount++], (yyvsp[-1].string));  }
 #line 1203 "y.tab.c"
     break;
 
   case 4: /* cmd_line: cmd_line BACKGROUND  */
-#line 49 "ish.y"
+#line 50 "ish.y"
                                       {  background = true;  }
 #line 1209 "y.tab.c"
     break;
 
-  case 8: /* separator: BACKGROUND  */
-#line 55 "ish.y"
-                              {  background = true;}
+  case 5: /* cmd_line: cmd_line SEMICOLON  */
+#line 51 "ish.y"
+                                     {  counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;}
 #line 1215 "y.tab.c"
     break;
 
-  case 11: /* separator: SEMICOLON  */
-#line 58 "ish.y"
-                            {   counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;}
+  case 8: /* separator: BACKGROUND  */
+#line 56 "ish.y"
+                              {  background = true;}
 #line 1221 "y.tab.c"
     break;
 
-  case 12: /* parameters: parameters OPTION  */
-#line 61 "ish.y"
-                                    { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
+  case 11: /* separator: SEMICOLON  */
+#line 59 "ish.y"
+                            {   counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;}
 #line 1227 "y.tab.c"
     break;
 
-  case 13: /* parameters: parameters STRING  */
+  case 12: /* parameters: parameters OPTION  */
 #line 62 "ish.y"
                                     { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
 #line 1233 "y.tab.c"
     break;
 
-  case 14: /* parameters: parameters WORD  */
+  case 13: /* parameters: parameters STRING  */
 #line 63 "ish.y"
-                                  { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
+                                    { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
 #line 1239 "y.tab.c"
     break;
 
-  case 15: /* parameters: parameters REDIRECT_IN FILENAME  */
+  case 14: /* parameters: parameters WORD  */
 #line 64 "ish.y"
-                                                  { redirection[commandCount][iter_red++] = REDIRECT_IN; strcpy(inFile[commandCount] ,(yyvsp[0].string)); }
+                                  { strcpy(parametersArray[parameterCount][paramCount++], (yyvsp[0].string)); }
 #line 1245 "y.tab.c"
     break;
 
-  case 16: /* parameters: parameters REDIRECT_OUT FILENAME  */
+  case 15: /* parameters: parameters REDIRECT_IN FILENAME  */
 #line 65 "ish.y"
-                                           { redirection[commandCount][iter_red++] = REDIRECT_OUT; strcpy(outFile[commandCount] , (yyvsp[0].string)); }
+                                                  { redirection[commandCount][iter_red++] = REDIRECT_IN; strcpy(inFile[commandCount] ,(yyvsp[0].string)); }
 #line 1251 "y.tab.c"
     break;
 
-  case 17: /* parameters: parameters REDIRECT_ERROR FILENAME  */
+  case 16: /* parameters: parameters REDIRECT_OUT FILENAME  */
 #line 66 "ish.y"
-                                                     { redirection[commandCount][iter_red++] = REDIRECT_ERROR; strcpy(errFile[commandCount] , (yyvsp[0].string));}
+                                           { redirection[commandCount][iter_red++] = REDIRECT_OUT; strcpy(outFile[commandCount] , (yyvsp[0].string)); }
 #line 1257 "y.tab.c"
     break;
 
-  case 18: /* parameters: parameters APPEND FILENAME  */
+  case 17: /* parameters: parameters REDIRECT_ERROR FILENAME  */
 #line 67 "ish.y"
-                                             { redirection[commandCount][iter_red++] = APPEND; strcpy(outFile[commandCount],(yyvsp[0].string)); }
+                                                     { redirection[commandCount][iter_red++] = REDIRECT_ERROR; strcpy(errFile[commandCount] , (yyvsp[0].string));}
 #line 1263 "y.tab.c"
     break;
 
-  case 19: /* parameters: parameters APPEND_ERROR FILENAME  */
+  case 18: /* parameters: parameters APPEND FILENAME  */
 #line 68 "ish.y"
-                                                   { redirection[commandCount][iter_red++] = APPEND_ERROR; strcpy(outFile[commandCount] , (yyvsp[0].string)); }
+                                             { redirection[commandCount][iter_red++] = APPEND; strcpy(outFile[commandCount],(yyvsp[0].string)); }
 #line 1269 "y.tab.c"
     break;
 
+  case 19: /* parameters: parameters APPEND_ERROR FILENAME  */
+#line 69 "ish.y"
+                                                   { redirection[commandCount][iter_red++] = APPEND_ERROR; strcpy(outFile[commandCount] , (yyvsp[0].string)); }
+#line 1275 "y.tab.c"
+    break;
 
-#line 1273 "y.tab.c"
+
+#line 1279 "y.tab.c"
 
       default: break;
     }
@@ -1462,7 +1468,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 72 "ish.y"
+#line 73 "ish.y"
 
 
 int yyerror(char *s){
@@ -1483,6 +1489,7 @@ int main(){
 				break;
 			case F_OK:
 				//Store the parameter count of last command
+				if(commandCount == 0) continue;
 				counts[commandCount-1] = paramCount;	
 				// Process command
 				process();

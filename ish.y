@@ -42,13 +42,14 @@
 %token	<int>		LOGICAL_AND
 %token	<int>		LOGICAL_OR
 %token	<int>		NO_REDIRECT
+
 %%
 
 cmd_line 	: cmd_line separator COMMAND parameters { strcpy(commandsArray[commandCount++], $3);  }
         | COMMAND parameters  { strcpy(commandsArray[commandCount++], $1);  }
 		| cmd_line BACKGROUND {  background = true;  }
-		| cmd_line SEMICOLON
-		|  
+		| cmd_line SEMICOLON {  counts[commandCount-1] = paramCount; paramCount = 0;  parameterCount = commandCount;iter_red = 0;}
+		|
 		| error 
 		;
 
@@ -66,7 +67,7 @@ parameters	: parameters OPTION { strcpy(parametersArray[parameterCount][paramCou
 		| parameters REDIRECT_ERROR FILENAME { redirection[commandCount][iter_red++] = REDIRECT_ERROR; strcpy(errFile[commandCount] , $3);}
 		| parameters APPEND FILENAME { redirection[commandCount][iter_red++] = APPEND; strcpy(outFile[commandCount],$3); }
 		| parameters APPEND_ERROR FILENAME { redirection[commandCount][iter_red++] = APPEND_ERROR; strcpy(outFile[commandCount] , $3); }
-		|
+		| 
 		;
 
 %%
@@ -89,6 +90,7 @@ int main(){
 				break;
 			case F_OK:
 				//Store the parameter count of last command
+				if(commandCount == 0) continue;
 				counts[commandCount-1] = paramCount;	
 				// Process command
 				process();
